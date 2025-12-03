@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Entrar / Cadastro - Pepeu</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="logo" href="index.html" aria-label="Página inicial">
+          <img src="img/Pepeu logo.jpg" alt="Pepeu Logo" class="logo-img" />
+        </a>
+        <nav class="main-nav">
+          <ul>
+            <li><a href="index.html">Início</a></li>
+            <li><a href="produtos.html">Produtos</a></li>
+            <li><a href="sobre.html">Sobre</a></li>
+            <li><a href="contato.html">Contato</a></li>
+            <li><a href="login.html">Entrar</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="container" style="padding: 42px 0">
+        <div class="auth-container">
+          <div class="auth-card">
+            <div class="auth-tabs">
+              <button id="tab-login" class="active">Entrar</button>
+              <button id="tab-register">Cadastro</button>
+            </div>
+
+            <form
+              id="loginForm"
+              class="auth-form"
+              aria-label="Formulário de login"
+            >
+              <label for="loginEmail">Email</label>
+              <input id="loginEmail" type="email" required />
+
+              <label for="loginPass">Senha</label>
+              <input id="loginPass" type="password" required minlength="6" />
+
+              <button type="submit" class="btn-cta btn-primary">Entrar</button>
+              <p class="muted small">
+                Esqueceu a senha? (simulação: não implementado)
+              </p>
+            </form>
+
+            <form
+              id="registerForm"
+              class="auth-form hidden"
+              aria-label="Formulário de cadastro"
+            >
+              <label for="regName">Nome completo</label>
+              <input id="regName" type="text" required />
+
+              <label for="regEmail">Email</label>
+              <input id="regEmail" type="email" required />
+
+              <label for="regPass">Senha</label>
+              <input id="regPass" type="password" required minlength="6" />
+
+              <label for="regPass2">Confirmar senha</label>
+              <input id="regPass2" type="password" required minlength="6" />
+
+              <button type="submit" class="btn-cta btn-primary">
+                Criar conta
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>
+          &copy; <span id="ano"></span> Pepeu - Berserk. Todos os direitos reservados.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      document.getElementById("ano").textContent = new Date().getFullYear();
+
+      (function () {
+        const tabLogin = document.getElementById("tab-login");
+        const tabRegister = document.getElementById("tab-register");
+        const loginForm = document.getElementById("loginForm");
+        const registerForm = document.getElementById("registerForm");
+
+        function showLogin() {
+          tabLogin.classList.add("active");
+          tabRegister.classList.remove("active");
+          loginForm.classList.remove("hidden");
+          registerForm.classList.add("hidden");
+        }
+        function showRegister() {
+          tabRegister.classList.add("active");
+          tabLogin.classList.remove("active");
+          registerForm.classList.remove("hidden");
+          loginForm.classList.add("hidden");
+        }
+
+        tabLogin.addEventListener("click", showLogin);
+        tabRegister.addEventListener("click", showRegister);
+        registerForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+          const name = document.getElementById("regName").value.trim();
+          const email = document
+            .getElementById("regEmail")
+            .value.trim()
+            .toLowerCase();
+          const pass = document.getElementById("regPass").value;
+          const pass2 = document.getElementById("regPass2").value;
+          if (!name || !email || !pass)
+            return alert("Preencha todos os campos");
+          if (pass !== pass2) return alert("As senhas não coincidem");
+          const users = JSON.parse(localStorage.getItem("pepeu_users") || "{}");
+          if (users[email]) return alert("Já existe uma conta com esse email");
+          users[email] = { name, email, pass };
+          localStorage.setItem("pepeu_users", JSON.stringify(users));
+          alert("Conta criada com sucesso! Você já pode entrar.");
+          showLogin();
+        });
+
+        loginForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+          const email = document
+            .getElementById("loginEmail")
+            .value.trim()
+            .toLowerCase();
+          const pass = document.getElementById("loginPass").value;
+          const users = JSON.parse(localStorage.getItem("pepeu_users") || "{}");
+          const user = users[email];
+          if (!user || user.pass !== pass)
+            return alert("Credenciais inválidas");
+          // set current user and redirect
+          localStorage.setItem(
+            "pepeu_current",
+            JSON.stringify({ name: user.name, email: user.email })
+          );
+          alert("Login efetuado!");
+          location.href = "index.html";
+        });
+      })();
+    </script>
+  </body>
+</html>

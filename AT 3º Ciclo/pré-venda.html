@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pré-venda - Berserk</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="logo" href="index.html" aria-label="Página inicial">
+          <img
+            src="img/Dragon oversi.png"
+            alt="Logo Berserk"
+            class="logo-img"
+          />
+        </a>
+        <nav class="main-nav">
+          <ul>
+            <li><a href="index.html">Início</a></li>
+            <li><a href="produtos.html">Produtos</a></li>
+            <li><a href="sobre.html">Sobre</a></li>
+            <li><a href="contato.html">Contato</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="produtos container">
+        <header class="produtos-header">
+          <div>
+            <h1>Pré-vendas</h1>
+            <p class="sub">
+              Novas estampas em pré-venda — reserve a sua antes do lançamento.
+            </p>
+          </div>
+        </header>
+
+        <div class="grid">
+          <article class="card">
+            <div style="position: relative; width: 100%">
+              <span class="pre-badge">Pré-venda</span>
+              <img
+                class="full-image pre-highlight"
+                src="img/Midoriya Izuku.png"
+                alt="Midoriya Izuku"
+              />
+            </div>
+            <h3>Estampa Midoriya Izuku</h3>
+            <p class="muted small">
+              Nova estampa inspirada em Midoriya Izuku — edição limitada em
+              pré-venda.
+            </p>
+            <p class="price">R$ 149,90</p>
+            <div class="card-actions">
+              <button
+                class="btn-cta"
+                onclick="location.href='compra.html?produto='+encodeURIComponent('Midoriya Izuku')"
+              >
+                Comprar
+              </button>
+              <a class="btn-cta" href="compra.html?produto=Midoriya%20Izuku"
+                >Reservar</a
+              >
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>
+          &copy; <span id="ano"></span> Pepeu - Berserk. Todos os direitos reservados.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      document.getElementById("ano").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>

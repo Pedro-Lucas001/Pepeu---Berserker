@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Compra - Berserk</title>
+
+    <meta
+      name="description"
+      content="Página de compra da Berserk Store – escolha sua estampa favorita e finalize o pedido."
+    />
+
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a
+          class="logo"
+          href="index.html"
+          aria-label="Página inicial Berserk Store"
+        >
+          <img src="img/Pepeu logo.jpg" alt="pepeu Logo" class="logo-img" />
+        </a>
+        <nav class="main-nav" aria-label="Navegação principal">
+          <ul>
+            <li><a href="index.html">Início</a></li>
+            <li><a href="produtos.html">Produtos</a></li>
+            <li><a href="sobre.html">Sobre</a></li>
+            <li><a href="contato.html">Contato</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="conteudo-principal">
+      <section class="compra container" aria-labelledby="titulo-produto">
+        <div class="product-detail">
+          <div class="product-image">
+            <img id="produto-img" src="img/prod1.jpg" alt="Imagem do produto" />
+          </div>
+
+          <div class="product-info">
+            <h1 id="titulo-produto">
+              <span id="produto-nome">Produto</span>
+            </h1>
+
+            <p id="produto-desc">Descrição do produto aparecerá aqui.</p>
+
+            <p class="price" id="produto-preco">R$ 0,00</p>
+
+            <form
+              id="comprar-form"
+              action="pagamento.html"
+              method="get"
+              aria-label="Formulário de compra"
+            >
+              <input type="hidden" id="produto-hidden" name="produto" />
+              <button type="submit" class="btn-cta btn-primary">
+                Comprar agora
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>
+        &copy; <span id="ano"></span> Berserk Store. Todos os direitos
+        reservados.
+      </p>
+    </footer>
+
+    <script>
+      (function () {
+        const params = new URLSearchParams(window.location.search);
+        const produto = params.get("produto") || "";
+
+        const products = {
+          "Isagi Yoichi": {
+            img: "img/Isagi Yoichi.png",
+            title: "Estampa Isagi Yoichi",
+            desc: "Homenagem a Isagi Yoichi — estampas com linhas dinâmicas que representam estratégia e garra do personagem.",
+            price: 129.9,
+          },
+          "Michael Kaiser": {
+            img: "img/Michael Kaiser.png",
+            title: "Estampa Michael Kaiser",
+            desc: "Homenagem a Michael Kaiser — estilo urbano, com formas geométricas e contraste que destacam atitude.",
+            price: 129.9,
+          },
+          "Toji Fushiguro": {
+            img: "img/Toji.png",
+            title: "Estampa Toji Fushiguro",
+            desc: "Tributo a Toji Fushiguro — traços sombrios e contraste acentuado para um visual arrojado e poderoso.",
+            price: 129.9,
+          },
+          "Satoru Gojo": {
+            img: "img/Satoru Gojo.png",
+            title: "Estampa Satoru Gojo",
+            desc: "Tributo a Satoru Gojo — visual impactante com detalhes elegantes e paleta contrastante.",
+            price: 129.9,
+          },
+          "Zaraki Kenpachi": {
+            img: "img/Zaraki Kenpachi.png",
+            title: "Estampa Zaraki Kenpachi",
+            desc: "Tributo a Zaraki Kenpachi — estampa com traços agressivos e alto contraste, perfeita para quem busca um visual marcante.",
+            price: 129.9,
+          },
+          "Ichigo Kurosaki": {
+            img: "img/Ichigo Kurosaki.png",
+            title: "Estampa Ichigo Kurosaki",
+            desc: "Estampa 'Ichigo Kurosaki' — design noturno com elementos em neon e composição minimalista.",
+            price: 129.9,
+          },
+          "Son Goku": {
+            img: "img/Son Goku.png",
+            title: "Estampa Son Goku",
+            desc: "Estampa 'Son Goku' — energia e movimento em um design vibrante.",
+            price: 129.9,
+          },
+          "Vegeta Ego": {
+            img: "img/Vegeta Ego.png",
+            title: "Estampa Vegeta Ego",
+            desc: "Estampa 'Vegeta Ego' — visual intenso para quem curte atitude e poder.",
+            price: 129.9,
+          },
+          "Midoriya Izuku": {
+            img: "img/Midoriya Izuku.png",
+            title: "Estampa Midoriya Izuku",
+            desc: "Estampa Midoriya Izuku — design vibrante com energia e movimento.",
+            price: 149.9,
+          },
+          "Sung Ji Woo": {
+            img: "img/Sung Ji Woo.png",
+            title: "Estampa Sung Ji Woo",
+            desc: "Estampa Sung Ji Woo — design moderno com elementos urbanos e estilo contemporâneo.",
+            price: 129.9,
+          },
+        };
+
+        const info = products[produto] || {
+          img: "img/prod1.jpg",
+          title: produto || "Produto",
+          desc: "Descrição não disponível.",
+          price: 0,
+        };
+
+        const imgEl = document.getElementById("produto-img");
+        const nomeEl = document.getElementById("produto-nome");
+        const descEl = document.getElementById("produto-desc");
+        const precoEl = document.getElementById("produto-preco");
+        const hidden = document.getElementById("produto-hidden");
+        const anoEl = document.getElementById("ano");
+
+        if (imgEl) {
+          imgEl.src = info.img;
+          imgEl.alt = info.title;
+        }
+        if (nomeEl) {
+          nomeEl.textContent = info.title;
+        }
+        if (descEl) {
+          descEl.textContent = info.desc;
+        }
+        if (precoEl) {
+          precoEl.textContent = "R$ " + info.price.toFixed(2).replace(".", ",");
+        }
+
+        if (hidden) {
+          hidden.value = produto || info.title;
+        }
+
+        if (anoEl) {
+          anoEl.textContent = new Date().getFullYear();
+        }
+
+        // Opcional: ajustar o título da aba com o produto
+        if (info.title && info.title !== "Produto") {
+          document.title = info.title + " - Berserk Store";
+        }
+      })();
+    </script>
+  </body>
+</html>

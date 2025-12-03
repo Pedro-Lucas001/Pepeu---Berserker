@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Produtos - Pepeu Berserk</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="logo" href="index.html" aria-label="Página inicial">
+          <img src="img/Pepeu logo.jpg" alt="Pepeu Logo" class="logo-img" />
+        </a>
+        <nav class="main-nav">
+          <ul>
+            <li><a href="index.html">Início</a></li>
+            <li><a href="produtos.html">Produtos</a></li>
+            <li><a href="sobre.html">Sobre</a></li>
+            <li><a href="contato.html">Contato</a></li>
+            <li><a href="login.html">Entrar</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section id="produtos" class="produtos container">
+        <header class="produtos-header">
+          <div>
+            <h1>Coleção Pepeu - Berserk</h1>
+            <p class="sub">Explore nossas estampas exclusivas focadas em animes. Use a busca ou filtre por estilo.</p>
+          </div>
+          <div class="produtos-controls">
+            <input id="search" type="search" placeholder="Buscar por nome ou palavra-chave" />
+          </div>
+        </header>
+
+        <div id="product-grid" class="grid" aria-live="polite">
+        </div>
+
+        <div id="quickview" class="modal hidden" role="dialog" aria-modal="true">
+          <div class="modal-content">
+            <button id="closeQuick" class="modal-close" aria-label="Fechar">×</button>
+            <div class="modal-body">
+              <img id="q-img" src="" alt="" />
+              <div class="q-info">
+                <h2 id="q-title"></h2>
+                <p id="q-desc"></p>
+                <p class="price" id="q-price"></p>
+                <a id="q-buy" class="btn-cta" href="#">Comprar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer"></footer>
+      <div class="container">
+        <p>
+          &copy; <span id="ano"></span> Pepeu - Berserk. Todos os direitos reservados.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      (function () {
+        const products = [
+          {
+            id: "Isagi Yoichi",
+            img: "img/Isagi Yoichi.png",
+            title: "Estampa Isagi Yoichi",
+            desc: "Homenagem a Isagi Yoichi — estampas com linhas dinâmicas que representam estratégia e garra do personagem.",
+            price: 129.9,
+            tags: ["tributo"],
+          },
+          {
+            id: "Michael Kaiser",
+            img: "img/Michael Kaiser.png",
+            title: "Estampa Michael Kaiser",
+            desc: "Homenagem a Michael Kaiser — estilo urbano, com formas geométricas e contraste que destacam atitude.",
+            price: 129.9,
+            tags: ["urbano"],
+          },
+          {
+            id: "Toji Fushiguro",
+            img: "img/Toji.png",
+            title: "Estampa Toji Fushiguro",
+            desc: "Tributo a Toji Fushiguro — traços sombrios e contraste acentuado para um visual arrojado e poderoso.",
+            price: 129.9,
+            tags: ["tributo"],
+          },
+          {
+            id: "Satoru Gojo",
+            img: "img/Satoru Gojo.png",
+            title: "Estampa Satoru Gojo",
+            desc: "Tributo a Satoru Gojo — visual impactante com detalhes elegantes e paleta contrastante.",
+            price: 129.9,
+            tags: ["tributo"],
+          },
+          {
+            id: "Zaraki Kenpachi",
+            img: "img/Zaraki Kenpachi.png",
+            title: "Estampa Zaraki Kenpachi",
+            desc: "Tributo a Zaraki Kenpachi — estampa com traços agressivos e alto contraste, perfeita para quem busca um visual marcante.",
+            price: 129.9,
+            tags: ["tributo"],
+          },
+          {
+            id: "Ichigo Kurosaki",
+            img: "img/Ichigo Kurosaki.png",
+            title: "Estampa Ichigo Kurosaki",
+            desc: "Estampa 'Ichigo Kurosaki' — design noturno com elementos em neon e composição minimalista.",
+            price: 129.9,
+            tags: ["clássico"],
+          },
+{
+            id: "Son Goku",
+            img: "img/Son Goku.png",
+            title: "Estampa Son Goku",
+            desc: "Estampa 'Son Goku' — design noturno com elementos em neon e composição minimalista.",
+            price: 129.9,
+            tags: ["clássico"],
+          },
+{
+            id: "Vegeta Ego",
+            img: "img/Vegeta Ego.png",
+            title: "Estampa Vegeta Ego",
+            desc: "Estampa 'Vegeta Ego' — design noturno com elementos em neon e composição minimalista.",
+            price: 129.9,
+            tags: ["clássico"],
+          },
+          {
+            id: "Midoriya Izuku",
+            img: "img/Midoriya Izuku.png",
+            title: "Estampa Midoriya Izuku",
+            desc: "Estampa Midoriya Izuku — design vibrante com energia e movimento.",
+            price: 149.9,
+            tags: ["destaque"],
+          },
+          {
+            id: "Sung Ji Woo",
+            img: "img/Sung Ji Woo.png",
+            title: "Estampa Sung Ji Woo",
+            desc: "Estampa Sung Ji Woo — design moderno com elementos urbanos e estilo contemporâneo.",
+            price: 129.9,
+            tags: ["urbano"],
+          },
+
+        ];
+
+        const grid = document.getElementById("product-grid");
+        const search = document.getElementById("search");
+        const filterBtns = Array.from(document.querySelectorAll(".filter-btn"));
+        const quick = document.getElementById("quickview");
+        const closeQuick = document.getElementById("closeQuick");
+
+        function formatPrice(n) {
+          return "R$ " + n.toFixed(2).replace(".", ",");
+        }
+
+        function render(list) {
+          grid.innerHTML = "";
+          if (!list.length) {
+            grid.innerHTML = "<p>Nenhum produto encontrado.</p>";
+            return;
+          }
+          list.forEach((p) => {
+            const card = document.createElement("article");
+            card.className = "card product-card";
+            card.innerHTML = `
+              <img class="full-image" src="${p.img}" alt="${p.title}" />
+              <h3>${p.title}</h3>
+              <p class="muted small">${p.desc}</p>
+              <p class="price">${formatPrice(p.price)}</p>
+              <div class="card-actions">
+                <button class="btn-view btn-cta" data-id="${p.id}">Ver</button>
+                <a class="btn-cta" href="compra.html?produto=${encodeURIComponent(p.id)}">Comprar</a>
+              </div>
+            `;
+            grid.appendChild(card);
+          });
+        }
+
+        function applyFilter() {
+          const q = (search.value || "").toLowerCase().trim();
+          const active = document.querySelector(".filter-btn.active").dataset.filter;
+          const filtered = products.filter((p) => {
+            const matchQuery = p.title.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q) || p.id.toLowerCase().includes(q);
+            const matchTag = active === "all" ? true : p.tags.includes(active);
+            return matchQuery && matchTag;
+          });
+          render(filtered);
+        }
+
+        search.addEventListener("input", () => applyFilter());
+        filterBtns.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            filterBtns.forEach((b) => b.classList.remove("active"));
+            btn.classList.add("active");
+            applyFilter();
+          });
+        });
+
+        grid.addEventListener("click", (e) => {
+          const v = e.target.closest(".btn-view");
+          if (!v) return;
+          const id = v.dataset.id;
+          const p = products.find((x) => x.id === id);
+          if (!p) return;
+          document.getElementById("q-img").src = p.img;
+          document.getElementById("q-img").alt = p.title;
+          document.getElementById("q-title").textContent = p.title;
+          document.getElementById("q-desc").textContent = p.desc;
+          document.getElementById("q-price").textContent = formatPrice(p.price);
+          document.getElementById("q-buy").href = "compra.html?produto=" + encodeURIComponent(p.id);
+          quick.classList.remove("hidden");
+        });
+
+        closeQuick.addEventListener("click", () => quick.classList.add("hidden"));
+        quick.addEventListener("click", (e) => {
+          if (e.target === quick) quick.classList.add("hidden");
+        });
+
+        render(products);
+        document.getElementById("ano").textContent = new Date().getFullYear();
+      })();
+    </script>
+  </body>
+</html>

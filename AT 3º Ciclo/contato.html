@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contato - Berserk</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="logo" href="index.html" aria-label="Página inicial">
+          <img src="img/Pepeu logo.jpg" alt="Logo Pepeu" class="logo-img" />
+        </a>
+        <nav class="main-nav">
+          <ul>
+            <li><a href="index.html">Início</a></li>
+            <li><a href="produtos.html">Produtos</a></li>
+            <li><a href="sobre.html">Sobre</a></li>
+            <li><a href="contato.html">Contato</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="contato container">
+        <h1>Suporte ao Cliente</h1>
+        <p class="sub">
+          Precisa de ajuda com pedidos, devoluções ou quer saber mais sobre
+          nossas estampas? Use um dos canais abaixo ou envie sua mensagem.
+        </p>
+
+        <div class="support-grid">
+          <div class="support-info">
+            <div class="support-card">
+              <h3>Canais de atendimento</h3>
+              <p class="muted">
+                Escolha o canal que preferir. Atendimento em horário comercial.
+              </p>
+              <ul>
+                <li>
+                  <strong>Email:</strong> suporte@pepeu.com (resposta em até
+                  24h)
+                </li>
+                <li><strong>WhatsApp:</strong> +55 11 9xxxx-xxxx</li>
+                <li>
+                  <strong>Instagram:</strong> <a href="#">@pepeu_oficial</a>
+                </li>
+                <li><strong>Telefone:</strong> (11) 4000-0000</li>
+              </ul>
+            </div>
+
+            <div class="support-card">
+              <h3>Perguntas frequentes</h3>
+              <dl>
+                <dt>Como acompanho meu pedido?</dt>
+                <dd>
+                  Use o número do pedido no nosso chat ou envie para suporte por
+                  email/WhatsApp.
+                </dd>
+
+                <dt>Posso trocar ou devolver?</dt>
+                <dd>
+                  Sim — entre em contato em até 7 dias após o recebimento com
+                  fotos e motivo.
+                </dd>
+
+                <dt>Quero saber mais sobre um produto</dt>
+                <dd>
+                  Envie o nome da estampa no formulário abaixo e responderemos
+                  com detalhes (tecido, medidas e disponibilidade).
+                </dd>
+              </dl>
+            </div>
+          </div>
+
+          <div class="support-form-card support-card">
+            <h3>Envie sua mensagem</h3>
+            <form id="supportForm">
+              <label for="s-name">Nome</label>
+              <input id="s-name" type="text" required />
+
+              <label for="s-email">Email</label>
+              <input id="s-email" type="email" required />
+
+              <label for="s-reason">Motivo</label>
+              <select id="s-reason" required>
+                <option value="pedido">Sobre meu pedido</option>
+                <option value="produto">Informações sobre produto</option>
+                <option value="troca">Troca/Devolução</option>
+                <option value="outro">Outro</option>
+              </select>
+
+              <label for="s-order" class="optional-field"
+                >Número do pedido (se aplicável)</label
+              >
+              <input id="s-order" type="text" placeholder="Ex: PED123456" />
+
+              <label for="s-message">Mensagem</label>
+              <textarea id="s-message" rows="5" required></textarea>
+
+              <button type="submit" class="btn-cta">Enviar ao suporte</button>
+            </form>
+            <p class="muted small">
+              As mensagens são simuladas localmente (sem envio real). Para
+              produção, integre com um backend.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>
+          &copy; <span id="ano"></span> Pepeu - Berserk. Todos os direitos reservados.
+        </p>
+        <p class="social">
+          Siga-nos: <a href="#">Instagram</a>
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      document.getElementById("ano").textContent = new Date().getFullYear();
+
+      (function () {
+        const form = document.getElementById("supportForm");
+        const reason = document.getElementById("s-reason");
+        const orderField = document.getElementById("s-order");
+
+        reason.addEventListener("change", function () {
+          // se motivo relacionado a pedido ou troca, pedir número do pedido
+          const val = reason.value;
+          const label = document.querySelector('label[for="s-order"]');
+          if (val === "pedido" || val === "troca") {
+            label.textContent = "Número do pedido (requerido)";
+            orderField.required = true;
+          } else {
+            label.textContent = "Número do pedido (se aplicável)";
+            orderField.required = false;
+          }
+        });
+
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          const name = document.getElementById("s-name").value.trim();
+          const email = document.getElementById("s-email").value.trim();
+          const reasonVal = reason.value;
+          const order = orderField.value.trim();
+          const message = document.getElementById("s-message").value.trim();
+          if (!name || !email || !message)
+            return alert("Preencha nome, email e mensagem.");
+          if ((reasonVal === "pedido" || reasonVal === "troca") && !order)
+            return alert("Informe o número do pedido.");
+
+          const store = JSON.parse(
+            localStorage.getItem("pepeu_support") || "[]"
+          );
+          store.push({
+            id: "SUP" + Date.now(),
+            name,
+            email,
+            reason: reasonVal,
+            order,
+            message,
+            when: new Date().toISOString(),
+          });
+          localStorage.setItem("pepeu_support", JSON.stringify(store));
+          alert(
+            "Mensagem enviada ao suporte (simulação). Em breve responderemos via email."
+          );
+          form.reset();
+        });
+      })();
+    </script>
+  </body>
+</html>
