@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Obrigado - Berserk</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="logo" href="index.html" aria-label="Página inicial">
+          <img
+            src="img/Dragon oversi.png"
+            alt="Logo Berserk"
+            class="logo-img"
+          />
+        </a>
+        <nav class="main-nav">
+          <ul>
+            <li><a href="index.html">Início</a></li>
+            <li><a href="produtos.html">Produtos</a></li>
+            <li><a href="sobre.html">Sobre</a></li>
+            <li><a href="contato.html">Contato</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="compra container">
+        <h1>Obrigado pela compra!</h1>
+        <p id="msg">Seu pedido foi confirmado.</p>
+        <div class="order">
+          <p>Pedido: <strong id="orderId"></strong></p>
+          <p>Produto: <span id="o-produto"></span></p>
+          <p>Tamanho: <span id="o-tamanho"></span></p>
+          <p>Quantidade: <span id="o-quantidade"></span></p>
+          <p>Total: R$ <span id="o-total"></span></p>
+        </div>
+        <p class="muted">
+          Enviaremos instruções de envio por e-mail (simulação).
+        </p>
+        <p><a class="btn-cta" href="index.html">Voltar ao início</a></p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>
+          &copy; <span id="ano"></span> Pepeu - Berserk. Todos os direitos reservados.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      const params = new URLSearchParams(location.search);
+      document.getElementById("orderId").textContent =
+        params.get("orderId") || "";
+      document.getElementById("o-produto").textContent =
+        params.get("produto") || "";
+      document.getElementById("o-tamanho").textContent =
+        params.get("tamanho") || "";
+      document.getElementById("o-quantidade").textContent =
+        params.get("quantidade") || "";
+      const total = params.get("total") || "0";
+      document.getElementById("o-total").textContent = total.replace(".", ",");
+      document.getElementById("ano").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>

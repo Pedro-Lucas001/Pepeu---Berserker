@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sobre - Berserk</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="logo" href="index.html" aria-label="Página inicial">
+          <img src="img/Pepeu logo.jpg" alt="Logo Pepeu" class="logo-img" />
+        </a>
+        <nav class="main-nav">
+          <ul>
+            <li><a href="index.html">Início</a></li>
+            <li><a href="produtos.html">Produtos</a></li>
+            <li><a href="sobre.html">Sobre</a></li>
+            <li><a href="contato.html">Contato</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="sobre container">
+        <h1>Sobre a Berserk</h1>
+        <p>
+          Somos uma marca jovem focada em trazer estampas autorais e licenciadas
+          (quando aplicável) com modelagem oversized e materiais de qualidade.
+          Buscamos sustentabilidade em processos e embalagens.
+        </p>
+        <div class="gallery" aria-label="Galeria da marca">
+          <div class="gallery-main">
+            <button class="gallery-btn prev" aria-label="Anterior">❮</button>
+            <img id="galleryImage" src="img/Pepeu logo.jpg" alt="Pepeu logo" />
+            <button class="gallery-btn next" aria-label="Próximo">❯</button>
+          </div>
+          <div class="thumbs" id="galleryThumbs" aria-hidden="false"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>
+          &copy; <span id="ano"></span> Pepeu - Berserk. Todos os direitos
+          reservados.
+        </p>
+        <p class="social">Siga-nos: <a href="#">Instagram</a></p>
+      </div>
+    </footer>
+
+    <script>
+      document.getElementById("ano").textContent = new Date().getFullYear();
+      (function () {
+        const images = [
+          "img/Isagi Yoichi.png",
+          "img/Michael Kaiser.png",
+          "img/Satoru Gojo.png",
+          "img/Toji.png",
+          "img/Zaraki Kenpachi.png",
+          "img/Vegeta Ego.png",
+          "img/Son Goku.png",
+          "img/Ichigo Kurosaki.png",
+          "img/Sung Ji Woo.png",
+        ];
+
+        let index = 0;
+        const imgEl = document.getElementById("galleryImage");
+        const thumbsEl = document.getElementById("galleryThumbs");
+        const intervalMs = 3000; // tempo entre slides
+        let timer = null;
+
+        function setImage(i) {
+          index = (i + images.length) % images.length;
+          imgEl.src = images[index];
+          imgEl.alt = images[index]
+            .replace("img/", "")
+            .replace(/\.[^/.]+$/, "")
+            .replace(/[-_]/g, " ");
+          // atualizar miniaturas ativas
+          Array.from(thumbsEl.children).forEach((thumb, idx) => {
+            thumb.classList.toggle("active", idx === index);
+          });
+        }
+
+        function next() {
+          setImage(index + 1);
+        }
+        function prev() {
+          setImage(index - 1);
+        }
+
+        // montar miniaturas
+        images.forEach((src, i) => {
+          const t = document.createElement("button");
+          t.type = "button";
+          t.className = "thumb";
+          t.setAttribute("aria-label", "Ver " + src);
+          const im = document.createElement("img");
+          im.src = src;
+          im.alt = src.replace("img/", "").replace(/\.[^/.]+$/, "");
+          t.appendChild(im);
+          t.addEventListener("click", () => {
+            setImage(i);
+            resetTimer();
+          });
+          thumbsEl.appendChild(t);
+        });
+
+        // controles
+        document
+          .querySelector(".gallery-btn.next")
+          .addEventListener("click", () => {
+            next();
+            resetTimer();
+          });
+        document
+          .querySelector(".gallery-btn.prev")
+          .addEventListener("click", () => {
+            prev();
+            resetTimer();
+          });
+
+        function startTimer() {
+          timer = setInterval(() => {
+            next();
+          }, intervalMs);
+        }
+        function resetTimer() {
+          if (timer) clearInterval(timer);
+          startTimer();
+        }
+
+        // start
+        setImage(0);
+        startTimer();
+      })();
+    </script>
+  </body>
+</html>
